@@ -2,8 +2,9 @@ var auth = require('./auth.json');
 var commands = require('./commands.json');
 
 var Discord = require('discord.js');
-
 var mybot = new Discord.Client();
+
+var botAdminRole;
 
 mybot.on('message', function(message) {
 
@@ -28,18 +29,59 @@ mybot.on('message', function(message) {
                     delete require.cache[require.resolve('./commands.json')];
                     commands = require('./commands.json');
                 }
+            break;
+            case '!eval':
+                if (message.author.hasRole(botAdminRole)) {
+                    // this is bad to do!
+                    let output = eval(parsedMessage.user);
+                    mybot.sendMessage(message.channel, output);
+                }
+            break;
+            case '!createrole':
+                if (message.author.hasRole(botAdminRole)) {
+                    let server = getServer();
+                    var role = server.roles.get('name', parsedMessage.user);
+                    if(!role) {
+                        mybot.createRole(server, {
+                            name: parsedMessage.user		
+                        }).then(createdRole => {
+				            role = createdRole;
+			            }).catch(console.log);
+                    } else {
+                        mybot.sendMessage(message.channel, `${parsedMessage.user} already exists`)
+                    }
+                }
+            break;
+            case '!addtorole':
+                if (message.author.hasRole(botAdminRole)) {
+                    let params = parsedMessage.user.split(':');
+                    let server = getServer();
+                    var role = server.roles.get('name', params[0]);
+                    let user = findUser(params[1])[0];
+                    mybot.addMemberToRole(user, role, (err) => console.log(err));
+                }
+            break;
         }
     }
 });
 
-//when the bot is ready
-mybot.on("ready", () => {
-	console.log(`Ready to begin! Serving in ${mybot.channels.length} channels`);
+// when the bot is ready
+mybot.on('ready', () => {
+    console.log(`Ready to begin! Serving in ${mybot.channels.length} channels`);
+    botAdminRole = getServer().roles.get('name', 'botadmin');
 });
 
 function activeUsers() {
     let activeUsers = mybot.users.filter(user => user.status === 'online').map(user => user.username);
     return activeUsers.join(', ');
+}
+
+function getServer() {
+    return mybot.servers[0];
+}
+
+function findUser(name) {
+    return mybot.users.filter(user => user.username.toLowerCase() === name || user.mention() === name);
 }
 
 function parseMessage(message) {
@@ -51,7 +93,7 @@ function parseMessage(message) {
         let command = splitMessage[0];
         let userName = splitMessage.slice(1).join(' ');
 
-        let foundUser = mybot.users.filter(user => user.username.toLowerCase() === userName || user.mention() === userName);
+        let foundUser = findUser(userName);
         if(foundUser.length === 1) {
             userName = foundUser[0].mention();
         }
