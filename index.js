@@ -19,19 +19,20 @@ mybot.on('message', function(message) {
     }
 
     let parsedMessage = parseMessage(message.content);
+    if(parsedMessage) {
+        if(generalCommands[parsedMessage.command]) {
 
-    if(generalCommands[parsedMessage.command]) {
+            let pluginParameters = {
+                bot: mybot,
+                channel: message.channel,
+                user: parsedMessage.body,
+                plugins: generalCommands
+            };
 
-        let pluginParameters = {
-            bot: mybot,
-            channel: message.channel,
-            user: parsedMessage.body,
-            plugins: generalCommands
-        };
-
-        generalCommands[parsedMessage.command](pluginParameters);
-    } else {
-        adminActions(parsedMessage, message);
+            generalCommands[parsedMessage.command](pluginParameters);
+        } else {
+            adminActions(parsedMessage, message);
+        }
     }
 });
 
