@@ -1,6 +1,9 @@
 "use strict";
 
 function parseMessage(message) {
+    // remove the !
+    message = message.slice(1);
+
     let splitMessage = message.split(' ');
     if(splitMessage.length > 1) {
         let command = splitMessage[0];

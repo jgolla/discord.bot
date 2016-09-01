@@ -1,7 +1,6 @@
 "use strict";
 
 var auth = require('./auth.json');
-var commands = require('./commands.json');
 var parseMessage = require('./messageparser.js');
 
 var Discord = require('discord.js');
@@ -9,6 +8,8 @@ var mybot = new Discord.Client();
 
 var admin = require('./adminactions.js');
 var adminActions;
+
+var pluggins = require('./pluggins.js')();
 
 mybot.on('message', function(message) {
 
@@ -19,26 +20,16 @@ mybot.on('message', function(message) {
 
     let parsedMessage = parseMessage(message.content);
 
-    if(commands[parsedMessage.command]) {
-        let userName;
-        if(parsedMessage.body) {
-            let user = mybot.findUser(parsedMessage.body);
-            if(user) {
-                userName = user.mention();
-            } else {
-                userName = parsedMessage.body;
-            }
+    if(pluggins[parsedMessage.command]) {
 
-            let messageToSend = commands[parsedMessage.command].replace('{USER_NAME}', userName);
-            mybot.sendMessage(message.channel, messageToSend);
-        }
-    } else if(parsedMessage.command === '!help') {
-        let helpList = 'Current commands: ';
-        for(let prop in commands) {
-            helpList += prop + ', ';
-        }
+        let plugginParameters = {
+            bot: mybot,
+            channel: message.channel,
+            user: parsedMessage.body,
+            pluggins: pluggins
+        };
 
-         mybot.sendMessage(message.channel, helpList.substr(0, helpList.length - 2));
+        pluggins[parsedMessage.command](plugginParameters);
     } else {
         adminActions(parsedMessage, message);
     }
