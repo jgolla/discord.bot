@@ -6,10 +6,9 @@ var parseMessage = require('./messageparser.js');
 var Discord = require('discord.js');
 var mybot = new Discord.Client();
 
-var admin = require('./adminactions.js');
-var adminActions;
-
+var botAdminRole;
 var generalCommands = require('./plugins.js')('plugins');
+var adminCommands = require('./plugins.js')('adminplugins');
 
 mybot.on('message', function(message) {
 
@@ -25,13 +24,21 @@ mybot.on('message', function(message) {
             let pluginParameters = {
                 bot: mybot,
                 channel: message.channel,
-                user: parsedMessage.body,
+                body: parsedMessage.body,
                 plugins: generalCommands
             };
 
             generalCommands[parsedMessage.command](pluginParameters);
-        } else {
-            adminActions(parsedMessage, message);
+        } else if (isUserBotAdmin(message.author) && adminCommands[parsedMessage.command]) {
+
+            let pluginParameters = {
+                bot: mybot,
+                channel: message.channel,
+                body: parsedMessage.body,
+                plugins: adminCommands
+            };
+            
+            adminCommands[parsedMessage.command](pluginParameters);
         }
     }
 });
@@ -42,9 +49,13 @@ mybot.on('ready', () => {
     
     // patch bot with utility find user function
     mybot.findUser = (name) => mybot.users.filter(user => user.username.toLowerCase() === name.toLowerCase() || user.mention() === name)[0];
-    
-    // wait for the bot to be initialized before setting up the admin actions
-    adminActions = admin(mybot);
+
+    // set bot admin role
+    botAdminRole = mybot.servers[0].roles.get('name', 'botadmin');
 });
+
+function isUserBotAdmin(author) {
+    return author.hasRole(botAdminRole);
+}
 
 mybot.loginWithToken(auth.token);
