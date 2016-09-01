@@ -50,10 +50,9 @@ function getMessageForUser(user, sender) {
         {
             messageList.push(`Hey ${user}, ${sender} wants to give you all their beer!`);
             messageList.push(`${user}, ${sender} wants another beer`);
-        }
-
-        messageList.push(`Your credit card was rejected ${sender}, I'll charge ${user} for it!`);
-        messageList.push(`${user} stole your wallet, ${sender}. He spend it all in beer!`);
+            messageList.push(`Your credit card was rejected ${sender}, I'll charge ${user} for it!`);
+            messageList.push(`${user} stole your wallet, ${sender}. He spend it all in beer!`);
+        }       
 
         messageList.push(`*tosses ${user} a cold one from the ice chest.*`);
         messageList.push(`*tosses a beer to ${user}*`);
