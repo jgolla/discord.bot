@@ -9,7 +9,7 @@ var mybot = new Discord.Client();
 var admin = require('./adminactions.js');
 var adminActions;
 
-var pluggins = require('./pluggins.js')();
+var generalCommands = require('./plugins.js')('plugins');
 
 mybot.on('message', function(message) {
 
@@ -20,16 +20,16 @@ mybot.on('message', function(message) {
 
     let parsedMessage = parseMessage(message.content);
 
-    if(pluggins[parsedMessage.command]) {
+    if(generalCommands[parsedMessage.command]) {
 
-        let plugginParameters = {
+        let pluginParameters = {
             bot: mybot,
             channel: message.channel,
             user: parsedMessage.body,
-            pluggins: pluggins
+            plugins: generalCommands
         };
 
-        pluggins[parsedMessage.command](plugginParameters);
+        generalCommands[parsedMessage.command](pluginParameters);
     } else {
         adminActions(parsedMessage, message);
     }
