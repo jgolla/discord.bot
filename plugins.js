@@ -8,8 +8,10 @@ function plugins(path) {
 
     let files = fs.readdirSync('./' + path);
     files.forEach((file) => {
-        let command = file.substr(0, file.length - 3);
-        pluginList[command] = require(__dirname + '/' + path + '/' + file);
+        if(file.endsWith('.js')) {
+            let command = file.substr(0, file.length - 3);
+            pluginList[command] = require(__dirname + '/' + path + '/' + file);
+        }
     });
 
     return pluginList;
