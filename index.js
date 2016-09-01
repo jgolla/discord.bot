@@ -23,7 +23,7 @@ mybot.on('message', function(message) {
 
             let pluginParameters = {
                 bot: mybot,
-                channel: message.channel,
+                message: message,
                 body: parsedMessage.body,
                 plugins: generalCommands
             };
@@ -33,7 +33,7 @@ mybot.on('message', function(message) {
 
             let pluginParameters = {
                 bot: mybot,
-                channel: message.channel,
+                message: message,
                 body: parsedMessage.body,
                 plugins: adminCommands
             };

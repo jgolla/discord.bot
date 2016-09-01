@@ -8,5 +8,5 @@ module.exports = function(pluginParameters) {
         foundUser = pluginParameters.body;
     }
 
-    pluginParameters.bot.sendMessage(pluginParameters.channel, `*hugs ${foundUser}*`);
+    pluginParameters.bot.sendMessage(pluginParameters.message.channel, `*hugs ${foundUser}*`);
 };

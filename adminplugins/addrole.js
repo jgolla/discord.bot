@@ -6,8 +6,8 @@ module.exports = function (pluginParameters) {
     if(!role) {
         pluginParameters.bot.createRole(server, {
             name: pluginParameters.body		
-        }).then(() =>  pluginParameters.bot.sendMessage(pluginParameters.channel, `Created role ${pluginParameters.body} `));
+        }).then(() =>  pluginParameters.bot.sendMessage(pluginParameters.message.channel, `Created role ${pluginParameters.body} `));
     } else {
-        pluginParameters.bot.sendMessage(pluginParameters.channel, `${pluginParameters.body} already exists`);
+        pluginParameters.bot.sendMessage(pluginParameters.message.channel, `${pluginParameters.body} already exists`);
     }
 };
