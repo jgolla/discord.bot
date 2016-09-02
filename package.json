@@ -9,6 +9,7 @@
   "author": "jgolla",
   "license": "ISC",
   "dependencies": {
+    "cleverbot-node": "^0.2.2",
     "discord.js": "^8.1.0"
   }
 }
