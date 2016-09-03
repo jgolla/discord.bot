@@ -91,7 +91,7 @@ bot.on('presence', (oldUser, newUser) => {
 
 function lookForNewUsers() {
     bot.users.forEach((user) => {
-        if(user !== bot.user && user.name !== 'Lord of Darkness') {
+        if(user !== bot.user) {
             let entry = db.find({ nick: user.mention() }, (err, docs) => {
                 if(docs.length === 0) {
                     bot.sendMessage(user, 'Please send me your nation id.');
