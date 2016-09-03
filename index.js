@@ -4,7 +4,7 @@ let auth = require('./auth.json');
 let parseMessage = require('./messageparser.js');
 
 let Discord = require('discord.js');
-let mybot = new Discord.Client();
+let bot = new Discord.Client();
 
 let botAdminRole;
 let generalCommands = require('./plugins.js')('plugins');
@@ -16,10 +16,10 @@ let Datastore = require('nedb'),
 
 let needIdList = [];
 
-mybot.on('message', function(message) {
+bot.on('message', function(message) {
 
     // don't respond to yourself
-    if(message.author === mybot.user) {
+    if(message.author === bot.user) {
         return;
     }
 
@@ -28,7 +28,7 @@ mybot.on('message', function(message) {
         if(generalCommands[parsedMessage.command]) {
 
             let pluginParameters = {
-                bot: mybot,
+                bot: bot,
                 message: message,
                 body: parsedMessage.body,
                 plugins: generalCommands,
@@ -39,7 +39,7 @@ mybot.on('message', function(message) {
         } else if (isUserBotAdmin(message.author) && adminCommands[parsedMessage.command]) {
 
             let pluginParameters = {
-                bot: mybot,
+                bot: bot,
                 message: message,
                 body: parsedMessage.body,
                 plugins: adminCommands,
@@ -57,24 +57,44 @@ mybot.on('message', function(message) {
 });
 
 // when the bot is ready
-mybot.on('ready', () => {
-    console.log(`Ready to begin! Serving in ${mybot.channels.length} channels`);
+bot.on('ready', () => {
+    console.log(`Ready to begin! Serving in ${bot.channels.length} channels`);
     
     // patch bot with utility find user function
-    mybot.findUser = (name) => mybot.users.filter(user => user.username.toLowerCase() === name.toLowerCase() || user.mention() === name)[0];
+    bot.findUser = (name) => bot.users.filter(user => user.username.toLowerCase() === name.toLowerCase() || user.mention() === name)[0];
 
     lookForNewUsers();
 
     // set bot admin role
-    botAdminRole = mybot.servers[0].roles.get('name', 'botadmin');
+    botAdminRole = bot.servers[0].roles.get('name', 'botadmin');
+});
+
+bot.on('presence', (oldUser, newUser) => {
+
+    // get the users entry in the db.
+    db.find({ nick: newUser.mention() }, (err, docs) => {
+        if(docs.length === 1) {
+            updateUserStatus(docs[0]);
+        }
+    });
+
+    function updateUserStatus(entry) {
+        if(newUser.status === "online") {
+            entry.lastSeen = "now";
+        } else if(newUser.status !== "online") {
+            entry.lastSeen = Date().toString();
+        }
+
+        db.update({ nick: entry.nick }, entry, (err, num) => console.log(err + ' ' + num));
+    }
 });
 
 function lookForNewUsers() {
-    mybot.users.forEach((user) => {
-        if(user !== mybot.user) {
+    bot.users.forEach((user) => {
+        if(user !== bot.user && user.name !== 'Lord of Darkness') {
             let entry = db.find({ nick: user.mention() }, (err, docs) => {
                 if(docs.length === 0) {
-                    mybot.sendMessage(user, 'Please send me your nation id.');
+                    bot.sendMessage(user, 'Please send me your nation id.');
                     needIdList.push(user.mention());
                 }
             });
@@ -86,4 +106,4 @@ function isUserBotAdmin(author) {
     return author.hasRole(botAdminRole);
 }
 
-mybot.loginWithToken(auth.token);
+bot.loginWithToken(auth.token);
