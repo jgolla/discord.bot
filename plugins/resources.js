@@ -1,13 +1,8 @@
 "use strict";
 
-let fs = require('fs');
-let nations;
+let nations = require('../nations.js');
 
 module.exports = function(pluginParameters) {
-    if(!nations) {
-        nations = parseFile(__dirname + '/CyberNations_SE_Nation_Stats.txt', Nation);
-    }
-
     if(!pluginParameters.body) {
         pluginParameters.bot.sendMessage(pluginParameters.message.channel, 'Usage: !resources <resource> <optional_resource>');
         return;
@@ -33,41 +28,4 @@ module.exports = function(pluginParameters) {
             }
         });
     });
-};
-
-function parseFile(fileName, base) {
-    let lines = fs.readFileSync(fileName).toString().split('\n');
-
-    let properties = lines[0].split('|');
-    // remove /r from the end
-    properties.pop();
-
-    lines = lines.slice(1);
-
-    let nations = [];
-    lines.forEach(function(item) {
-        if(item) {
-            let splitLine = item.split('|');
-            let nation;
-            
-            if(base) {
-                nation = new base();
-            } else {
-                nation = {};
-            }
-
-            for(let i = 0; i < properties.length; i++) {
-                nation[properties[i]] = splitLine[i];
-            }
-
-            nations.push(nation);
-        }
-    });
-
-    return nations;
-}
-
-function Nation() {};
-Nation.prototype.getCNLink = function() {
-    return 'http://www.cybernations.net/nation_drill_display.asp?Nation_ID=' + this['Nation ID'];
 };
