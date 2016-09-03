@@ -19,11 +19,11 @@ function getMessageForUser(user, sender) {
     let messageList = [];
     if(!user) {
         // messages
-        messageList.push("is that a beer in your pocket or are you happy to see me?");
-        messageList.push("i can haz beer too?");
+        messageList.push("Is that a beer in your pocket or are you happy to see me?");
+        messageList.push("I can haz beer too?");
         messageList.push("Do you know what's fun about being sober? NOTHING! Have a beer!");
-        messageList.push("if beer pong was a sport, I'd have a full scholarship");
-        messageList.push("hold my beer, watch this!");
+        messageList.push("If beer pong was a sport, I'd have a full scholarship");
+        messageList.push("Hold my beer, watch this!");
         messageList.push("If beer, coffee, or a nap can't cure it, you've got a serious problem.");
         messageList.push("Alcohol is never the answer... But it does make you forget the question");
         messageList.push("Love has 4 letters, but then again so does beer");
@@ -32,7 +32,7 @@ function getMessageForUser(user, sender) {
         messageList.push("Beauty is in the eye of the beer holder");
         messageList.push("Never text while driving. You might spill your beer!");
         messageList.push("Some things are better left unsaid, but I'll probably get drunk and say them anyway.");
-        messageList.push("my body is not a temple... it's a microbrewery with legs");
+        messageList.push("My body is not a temple... it's a microbrewery with legs");
         messageList.push("No! for the last time stop asking if i am drunk. I am not drunk! Who would name their kid drunk?");
         messageList.push("A man's got to believe in something. I believe I'll have another beer");
         messageList.push("Girl, this isn't a beer belly, its a fuel tank for my love machine!");
