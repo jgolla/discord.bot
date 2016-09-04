@@ -1,12 +1,12 @@
 "use strict";
 
 module.exports = function(pluginParameters) {
-    let foundUser = pluginParameters.bot.findUser(pluginParameters.body);
+    let foundUser = pluginParameters.bot.users.find('username', pluginParameters.body);
     if(foundUser) {
-        foundUser = foundUser.mention();
+        foundUser = foundUser.toString();
     } else {
         foundUser = pluginParameters.body;
     }
 
-    pluginParameters.bot.sendMessage(pluginParameters.message.channel, `*hugs ${foundUser}*`);
+    pluginParameters.message.channel.sendMessage(`*hugs ${foundUser}*`);
 };

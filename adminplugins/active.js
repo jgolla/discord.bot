@@ -2,5 +2,5 @@
 
 module.exports = function (pluginParameters) {
     let activeUsers = pluginParameters.bot.users.filter(user => user.status === 'online').map(user => user.username);
-    pluginParameters.bot.sendMessage(pluginParameters.message.channel, activeUsers.join(', '));
+    pluginParameters.message.channel.sendMessage(activeUsers.join(', '));
 };

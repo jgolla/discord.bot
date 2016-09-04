@@ -1,9 +1,9 @@
 "use strict";
 
 module.exports = function(pluginParameters) {
-    let foundUser = pluginParameters.bot.findUser(pluginParameters.body);
+    let foundUser = pluginParameters.bot.users.find('username', pluginParameters.body);
     if(foundUser) {
-        foundUser = foundUser.mention();
+        foundUser = foundUser.toString();
         pluginParameters.db.find({nick: foundUser}, (err, docs) => {
             if(docs.length === 1) {
                 let lastSeen = docs[0].lastSeen;
@@ -11,13 +11,13 @@ module.exports = function(pluginParameters) {
                     lastSeen = "on " + lastSeen;
                 }
 
-                pluginParameters.bot.sendMessage(pluginParameters.message.channel, `I last saw ${foundUser} ${lastSeen}`);
+                pluginParameters.message.channel.sendMessage(`I last saw ${foundUser} ${lastSeen}`);
                 return;
             } else {
-                pluginParameters.bot.sendMessage(pluginParameters.message.channel, `I have not seen ${foundUser}`);
+                pluginParameters.message.channel.sendMessage(`I have not seen ${foundUser}`);
             }
         });
     } else {
-        pluginParameters.bot.sendMessage(pluginParameters.message.channel, `I have not seen ${pluginParameters.body}`);
+        pluginParameters.message.channel.sendMessage(`I have not seen ${pluginParameters.body}`);
     }
 };

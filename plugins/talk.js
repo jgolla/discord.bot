@@ -13,7 +13,7 @@ module.exports = function(pluginParameters) {
                 let cleanedMessage = message.content.replace(pluginParameters.bot.user, '');
                 Cleverbot.prepare(function(){
                     cleverbot.write(cleanedMessage, function (response) {
-                        pluginParameters.bot.sendMessage(pluginParameters.message.channel, response.message);
+                        pluginParameters.message.channel.sendMessage(response.message);
                     });
                 });
             }
@@ -22,7 +22,7 @@ module.exports = function(pluginParameters) {
 
     Cleverbot.prepare(function(){
         cleverbot.write(pluginParameters.body, function (response) {
-            pluginParameters.bot.sendMessage(pluginParameters.message.channel, response.message);
+            pluginParameters.message.channel.sendMessage(response.message);
         });
     });
 };

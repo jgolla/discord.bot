@@ -2,7 +2,7 @@
 
 module.exports = function(pluginParameters) {
     let message = getMessage();
-    pluginParameters.bot.sendMessage(pluginParameters.message.channel, message);
+    pluginParameters.message.channel.sendMessage(message);
 };
 
 function getMessage(user, sender) {

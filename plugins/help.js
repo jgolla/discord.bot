@@ -6,5 +6,5 @@ module.exports = function(pluginParameters) {
         helpList += prop + ', ';
     }
 
-    pluginParameters.bot.sendMessage(pluginParameters.message.channel, helpList.substr(0, helpList.length - 2));
+    pluginParameters.message.channel.sendMessage(helpList.substr(0, helpList.length - 2));
 };

@@ -11,7 +11,7 @@ module.exports = function(pluginParameters) {
         response.on('data', (d) => body += d);
         response.on('end', function() {
             var parsed = JSON.parse(body);
-            pluginParameters.bot.sendMessage(pluginParameters.message.channel, parsed.value.joke);
+            pluginParameters.message.channel.sendMessage(parsed.value.joke);
         });        
     });  
 };

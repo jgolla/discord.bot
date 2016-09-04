@@ -3,16 +3,16 @@
 module.exports = function(pluginParameters) {
     let foundUser;
     if(pluginParameters.body) {
-        foundUser = pluginParameters.bot.findUser(pluginParameters.body);
+        foundUser = pluginParameters.bot.users.find('username', pluginParameters.body);
         if(foundUser) {
-            foundUser = foundUser.mention();
+            foundUser = foundUser.toString();
         } else {
             foundUser = pluginParameters.body;
         }
     }
 
-    let message = getMessageForUser(foundUser, pluginParameters.message.author.mention());
-    pluginParameters.bot.sendMessage(pluginParameters.message.channel, message);
+    let message = getMessageForUser(foundUser, pluginParameters.message.author.toString());
+    pluginParameters.message.channel.sendMessage(message);
 };
 
 function getMessageForUser(user, sender) {

@@ -1,9 +1,9 @@
 "use strict";
 
 module.exports = function (pluginParameters) {
-    let server = pluginParameters.bot.servers[0];
-    let role = server.roles.get('name', pluginParameters.body);
+    let server = pluginParameters.message.guild;
+    let role = server.roles.find('name', pluginParameters.body);
     if(role) {
-        role.delete().then(() => pluginParameters.bot.sendMessage(pluginParameters.message.channel, `${pluginParameters.body} deleted`));
+        role.delete().then(() => pluginParameters.message.channel.sendMessage(`${pluginParameters.body} deleted`)).catch(console.log);
     } 
 };

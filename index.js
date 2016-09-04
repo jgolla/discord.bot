@@ -50,29 +50,26 @@ bot.on('message', function(message) {
         }
     }
 
-    if(message.channel.isPrivate && needIdList.indexOf(message.author.mention()) !== -1) {
-        db.insert({nick: message.author.mention(), nationid: message.content});
-        needIdList.splice(needIdList.indexOf(message.author.mention()), 1);
+    if(message.channel.isPrivate && needIdList.indexOf(message.author.toString()) !== -1) {
+        db.insert({nick: message.author.toString(), nationid: message.content});
+        needIdList.splice(needIdList.indexOf(message.author.toString()), 1);
     }
 });
 
 // when the bot is ready
 bot.on('ready', () => {
     console.log(`Ready to begin! Serving in ${bot.channels.length} channels`);
-    
-    // patch bot with utility find user function
-    bot.findUser = (name) => bot.users.filter(user => user.username.toLowerCase() === name.toLowerCase() || user.mention() === name)[0];
 
     lookForNewUsers();
 
     // set bot admin role
-    botAdminRole = bot.servers[0].roles.get('name', 'botadmin');
+    botAdminRole = bot.guilds.first().roles.find('name', 'botadmin');
 });
 
 bot.on('presence', (oldUser, newUser) => {
 
     // get the users entry in the db.
-    db.find({ nick: newUser.mention() }, (err, docs) => {
+    db.find({ nick: newUser.toString() }, (err, docs) => {
         if(docs.length === 1) {
             updateUserStatus(docs[0]);
         }
@@ -92,10 +89,10 @@ bot.on('presence', (oldUser, newUser) => {
 function lookForNewUsers() {
     bot.users.forEach((user) => {
         if(user !== bot.user) {
-            let entry = db.find({ nick: user.mention() }, (err, docs) => {
+            let entry = db.find({ nick: user.toString() }, (err, docs) => {
                 if(docs.length === 0) {
                     bot.sendMessage(user, 'Please send me your nation id.');
-                    needIdList.push(user.mention());
+                    needIdList.push(user.toString());
                 }
             });
         }
@@ -103,7 +100,9 @@ function lookForNewUsers() {
 }
 
 function isUserBotAdmin(author) {
-    return author.hasRole(botAdminRole);
+    let member = bot.guilds.first().members.find('id', author.id);
+    let role = member.roles.find('name', botAdminRole.name);
+    return !!role;
 }
 
-bot.loginWithToken(auth.token);
+bot.login(auth.token);

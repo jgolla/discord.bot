@@ -1,13 +1,16 @@
 "use strict";
 
 module.exports = function (pluginParameters) {
-    let server = pluginParameters.bot.servers[0];
+    let server = pluginParameters.message.guild;
     let params = pluginParameters.body.split(':');
-    let role = server.roles.get('name', params[0]);
+    let role = server.roles.find('name', params[0]);
     if(role) {
-        let user = pluginParameters.bot.findUser(params[1]);
-        pluginParameters.bot.addMemberToRole(user, role, (err) => err && console.log(err)).then(() => pluginParameters.bot.sendMessage(pluginParameters.message.channel, `${params[1]} added to role ${params[0]}`));
+        let user = pluginParameters.bot.users.find('username', params[1]);
+        let guildMember = pluginParameters.message.channel.guild.members.find('user', user);
+        let newRoles = guildMember.roles.array();
+        newRoles.push(role);
+        guildMember.setRoles(newRoles).then((role) => pluginParameters.message.channel.sendMessage(`${params[1]} added to role ${params[0]}`)).catch(console.log);
     } else {
-        pluginParameters.bot.sendMessage(pluginParameters.message.channel, `Could not find role ${params[0]}`)
+        pluginParameters.message.channel.sendMessage(`Could not find role ${params[0]}`)
     }
 };
