@@ -6,13 +6,18 @@ module.exports = function(pluginParameters) {
         foundUser = foundUser.mention();
         pluginParameters.db.find({nick: foundUser}, (err, docs) => {
             if(docs.length === 1) {
-                pluginParameters.bot.sendMessage(pluginParameters.message.channel, `I last saw ${foundUser} on ${docs[0].lastSeen}`);
+                let lastSeen = docs[0].lastSeen;
+                if(lastSeen !== "now") {
+                    lastSeen = "on " + lastSeen;
+                }
+
+                pluginParameters.bot.sendMessage(pluginParameters.message.channel, `I last saw ${foundUser} ${lastSeen}`);
                 return;
             } else {
                 pluginParameters.bot.sendMessage(pluginParameters.message.channel, `I have not seen ${foundUser}`);
             }
         });
     } else {
-        pluginParameters.bot.sendMessage(pluginParameters.message.channel, `I have not seen ${foundUser}`);
+        pluginParameters.bot.sendMessage(pluginParameters.message.channel, `I have not seen ${pluginParameters.body}`);
     }
 };
