@@ -1,4 +1,6 @@
-"use strict";
+'use strict';
+
+let utils = require('../utils.js');
 
 module.exports = function(pluginParameters) {
     let foundUser = pluginParameters.bot.users.find('username', pluginParameters.body);

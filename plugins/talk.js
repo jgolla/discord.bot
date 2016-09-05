@@ -1,8 +1,8 @@
-"use strict";
+'use strict';
 
-var Cleverbot = require('cleverbot-node');
-var cleverbot = new Cleverbot();
-var setupResponder = false;
+let Cleverbot = require('cleverbot-node');
+let cleverbot = new Cleverbot();
+let setupResponder = false;
 
 module.exports = function(pluginParameters) {
 

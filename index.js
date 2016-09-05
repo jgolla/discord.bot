@@ -1,4 +1,6 @@
-"use strict";
+'use strict';
+
+require('./utils.js');
 
 let auth = require('./auth.json');
 let parseMessage = require('./messageparser.js');
@@ -9,7 +11,6 @@ let bot = new Discord.Client();
 let botAdminRole;
 let generalCommands = require('./plugins.js')('plugins');
 let adminCommands = require('./plugins.js')('adminplugins');
-
 
 let Datastore = require('nedb'), 
     db = new Datastore({ filename: 'discord.db', autoload: true });
@@ -58,7 +59,7 @@ bot.on('message', function(message) {
 
 // when the bot is ready
 bot.on('ready', () => {
-    console.log(`Ready to begin! Serving in ${bot.channels.length} channels`);
+    console.log(`Ready to begin!`);
 
     lookForNewUsers();
 

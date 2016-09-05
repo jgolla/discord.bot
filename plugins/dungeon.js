@@ -1,16 +1,9 @@
-"use strict";
+'use strict';
+
+let utils = require('../utils.js');
 
 module.exports = function(pluginParameters) {
-    let foundUser;
-    if(pluginParameters.body) {
-        foundUser = pluginParameters.bot.users.find('username', pluginParameters.body);
-        if(foundUser) {
-            foundUser = foundUser.toString();
-        } else {
-            foundUser = pluginParameters.body;
-        }
-    }
-
+    let foundUser = utils.getMentionFromName(pluginParameters.body, pluginParameters.bot);
     let message = getMessageForUser(foundUser, pluginParameters.message.author.toString());
     pluginParameters.message.channel.sendMessage(message);
 };
@@ -55,6 +48,5 @@ function getMessageForUser(user, sender) {
         messageList.push(`*can't find the keys to the Dungeon... ${user} will be chained to the entrance meanwhile!*`);
     }
 
-    let index = Math.floor(Math.random() * messageList.length);
-    return messageList[index];
+    return messageList.random();
 }
