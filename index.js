@@ -67,7 +67,7 @@ bot.on('ready', () => {
     botAdminRole = bot.guilds.first().roles.find('name', 'botadmin');
 });
 
-bot.on('presence', (oldUser, newUser) => {
+bot.on('presenceUpdate', (oldUser, newUser) => {
 
     // get the users entry in the db.
     db.find({ nick: newUser.toString() }, (err, docs) => {
