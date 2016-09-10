@@ -15,7 +15,7 @@ function action(pluginParameters) {
             // Continuously update stream with data
             let data = [];
             response.on('data', (d) => {
-                d.forEach((item) => data = data.concat(item));
+                data = [].concat.apply(data, d);
             });
 
             response.on('end', function() {
