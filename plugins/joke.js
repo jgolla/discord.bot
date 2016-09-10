@@ -2,7 +2,7 @@
 
 let http = require('http');
 
-module.exports = function(pluginParameters) {
+function action(pluginParameters) {
 
     http.get('http://api.icndb.com/jokes/random', function(response) {
 
@@ -14,4 +14,13 @@ module.exports = function(pluginParameters) {
             pluginParameters.message.channel.sendMessage(parsed.value.joke);
         });        
     });  
+}
+
+function help(pluginParameters) {
+    pluginParameters.message.channel.sendMessage('Usage: !joke');
+}
+
+module.exports = {
+    action: action,
+    help: help
 };

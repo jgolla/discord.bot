@@ -23,7 +23,16 @@ const messageList = [
     'Very doubtful'
 ];
 
-module.exports = function(pluginParameters) {
+function action(pluginParameters) {
     let message = messageList.random();
-    pluginParameters.message.channel.sendMessage(message);
+    pluginParameters.message.channel.sendMessage(message); 
+}
+
+function help(pluginParameters) {
+    pluginParameters.message.channel.sendMessage('Usage: !8ball <question>');
+}
+
+module.exports = {
+    action: action,
+    help: help
 };

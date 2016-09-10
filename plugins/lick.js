@@ -2,11 +2,15 @@
 
 let utils = require('../utils.js');
 
-module.exports = function(pluginParameters) {
+function action(pluginParameters) {
     let foundUser = utils.getMentionFromName(pluginParameters.body, pluginParameters.bot);
     let message = getMessageForUser(foundUser, pluginParameters.message.author.toString());
     pluginParameters.message.channel.sendMessage(message);
 };
+
+function help(pluginParameters) {
+    pluginParameters.message.channel.sendMessage('Usage: !lick or !lick <user>');
+}
 
 function getMessageForUser(user, sender) {
     let messageList = [];
@@ -39,3 +43,8 @@ function getMessageForUser(user, sender) {
 
     return messageList.random();
 }
+
+module.exports = {
+    action: action,
+    help: help
+};

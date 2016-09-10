@@ -2,7 +2,7 @@
 
 let nations = require('../nations.js');
 
-module.exports = function(pluginParameters) {    
+function action(pluginParameters) {    
     let nationsByName = nations.filter((nation) => nation['Nation Name'].toLowerCase().indexOf(pluginParameters.body.toLowerCase()) !== -1).slice(0, 5);
     if(nationsByName.length > 0) {
         pluginParameters.message.channel.sendMessage('Matching nations names:').then(() => {
@@ -16,4 +16,13 @@ module.exports = function(pluginParameters) {
             nationsByRuler.forEach((nation) => pluginParameters.message.channel.sendMessage('Ruler name: ' + nation['Ruler Name'] + ' ' + nation.getCNLink()));
         });
     }
+}
+
+function help(pluginParameters) {
+    pluginParameters.message.channel.sendMessage('Usage: !nation <nation name or ruler name>');
+}
+
+module.exports = {
+    action: action,
+    help: help
 };

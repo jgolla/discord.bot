@@ -2,7 +2,7 @@
 
 let utils = require('../utils.js');
 
-module.exports = function(pluginParameters) {
+function action(pluginParameters) {
     let foundUser = pluginParameters.bot.users.find('username', pluginParameters.body);
     if(foundUser) {
         foundUser = foundUser.toString();
@@ -22,4 +22,13 @@ module.exports = function(pluginParameters) {
     } else {
         pluginParameters.message.channel.sendMessage(`I have not seen ${pluginParameters.body}`);
     }
+}
+
+function help(pluginParameters) {
+    pluginParameters.message.channel.sendMessage('Usage: !seen <user>'); 
+}
+
+module.exports = {
+    action: action,
+    help: help
 };

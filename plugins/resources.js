@@ -2,9 +2,9 @@
 
 let nations = require('../nations.js');
 
-module.exports = function(pluginParameters) {
+function action(pluginParameters) {
     if(!pluginParameters.body) {
-        pluginParameters.message.channel.sendMessage('Usage: !resources <resource> <optional_resource>');
+        help(pluginParameters);
         return;
     }
 
@@ -28,4 +28,13 @@ module.exports = function(pluginParameters) {
             }
         });
     });
+}
+
+function help(pluginParameters) {
+    pluginParameters.message.channel.sendMessage('Usage: !resources <resource> <optional_resource>');
+}
+
+module.exports = {
+    action: action,
+    help: help
 };

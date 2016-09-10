@@ -36,7 +36,7 @@ bot.on('message', function(message) {
                 db: db
             };
 
-            generalCommands[parsedMessage.command](pluginParameters);
+            generalCommands[parsedMessage.command].action(pluginParameters);
         } else if (isUserBotAdmin(message.author) && adminCommands[parsedMessage.command]) {
 
             let pluginParameters = {
@@ -62,6 +62,17 @@ bot.on('ready', () => {
     console.log(`Ready to begin!`);
 
     lookForNewUsers();
+
+    // init plugs
+    let pluginParameters = {
+        bot: bot
+    };
+
+    for (let prop in generalCommands) {
+        if(generalCommands[prop].init) {
+            generalCommands[prop].init(pluginParameters);
+        }
+    } 
 
     // set bot admin role
     botAdminRole = bot.guilds.first().roles.find('name', 'botadmin');

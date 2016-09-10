@@ -2,10 +2,10 @@
 
 let utils = require('../utils.js');
 
-module.exports = function(pluginParameters) {
+function action(pluginParameters) {
 
     if(!pluginParameters.body) {
-        pluginParameters.message.channel.sendMessage('Usage: !rps <rock|paper|scissors>');
+        help(pluginParameters);
         return;
     }
 
@@ -27,7 +27,11 @@ module.exports = function(pluginParameters) {
 
         pluginParameters.message.channel.sendMessage(message);
     });
-};
+}
+
+function help(pluginParameters) {
+    pluginParameters.message.channel.sendMessage('Usage: !rps <rock|paper|scissors>');
+}
 
 const PlayerWins = ['You have bested a bot, I bet you feel special.', 'You have won, dummy.'];
 const ComputerWins = ['I WIN, YOU LOSE.', 'HAHAHAH, loser!'];
@@ -47,3 +51,8 @@ choices.forEach(function(choice, i) {
 function compare(choice1, choice2) {
     return (map[choice1] || {})[choice2] || 'Invalid choice';
 }
+
+module.exports = {
+    action: action,
+    help: help
+};
