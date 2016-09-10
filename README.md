@@ -16,4 +16,6 @@ This is my attempt at a Cybernations based Discord bot based off Discord.js.
 # To do
 [ ] Refactor presence handler into its own module, with other DB interactions.
 
+[ ] Add general logging DB
+
 [ ] Refactor plugins to have their own help function.
