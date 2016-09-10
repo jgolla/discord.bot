@@ -3,6 +3,10 @@
 let utils = require('../utils.js');
 
 function action(pluginParameters) {
+    if(!pluginParameters.body) {
+        return;
+    }
+    
     let foundUser = pluginParameters.bot.users.find('username', pluginParameters.body);
     if(foundUser) {
         foundUser = foundUser.toString();

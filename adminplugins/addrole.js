@@ -7,7 +7,7 @@ function action(pluginParameters) {
         server.createRole({
             name: pluginParameters.body		
         }).then((role) => {
-            role.edit({ name: pluginParameters.body, color: '0' }).then(() => pluginParameters.message.channel.sendMessage(`Created role ${pluginParameters.body} `)).catch(console.log); 
+            role.edit({ name: pluginParameters.body }).then(() => pluginParameters.message.channel.sendMessage(`Created role ${pluginParameters.body} `)).catch(console.log); 
         }).catch(console.log);
     } else {
         pluginParameters.message.channel.sendMessage(`${pluginParameters.body} already exists`);

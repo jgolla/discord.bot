@@ -35,8 +35,9 @@ bot.on('message', function(message) {
                 plugins: generalCommands,
                 db: db
             };
-
-            generalCommands[parsedMessage.command].action(pluginParameters);
+            if(generalCommands[parsedMessage.command].action) {
+                generalCommands[parsedMessage.command].action(pluginParameters);
+            }
         } else if (isUserBotAdmin(message.author) && adminCommands[parsedMessage.command]) {
 
             let pluginParameters = {
@@ -46,8 +47,9 @@ bot.on('message', function(message) {
                 plugins: adminCommands,
                 db: db
             };
-
-            adminCommands[parsedMessage.command].action(pluginParameters);
+            if(adminCommands[parsedMessage.command].action) {
+                adminCommands[parsedMessage.command].action(pluginParameters);
+            }
         }
     }
 

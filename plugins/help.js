@@ -9,7 +9,7 @@ function helpList(pluginParameters) {
         
         pluginParameters.message.channel.sendMessage(helpList.substr(0, helpList.length - 2));
     } else {
-        if(pluginParameters.plugins[pluginParameters.body]) {
+        if(pluginParameters.plugins[pluginParameters.body] && pluginParameters.plugins[pluginParameters.body].help) {
             pluginParameters.plugins[pluginParameters.body].help(pluginParameters);
         }
     }
