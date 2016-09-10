@@ -17,7 +17,7 @@ function action(pluginParameters) {
 }
 
 function help(pluginParameters) {
-    pluginParameters.message.channel.sendMessage('Usage: !meme <templatename>:<toptext>:<bottomtext>\nSee https://memegen.link/templates/ for a list of available memes.');
+    pluginParameters.message.channel.sendMessage('Usage: `!meme <templatename>:<toptext>:<bottomtext>`\nSee https://memegen.link/templates/ for a list of available memes.');
 }
 
 module.exports = {

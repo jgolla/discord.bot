@@ -19,5 +19,3 @@ This is my attempt at a Cybernations based Discord bot based off Discord.js.
 [ ] Add general logging DB
 
 [ ] Add helps to the admin plugins
-
-[ ] Add formatting to the help

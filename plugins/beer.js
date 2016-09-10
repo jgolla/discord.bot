@@ -9,7 +9,7 @@ function action(pluginParameters) {
 }
 
 function help(pluginParameters) {
-    pluginParameters.message.channel.sendMessage('Usage: !beer or !beer <user>');
+    pluginParameters.message.channel.sendMessage('Usage: `!beer` or `!beer <user>`');
 }
 
 function getMessageForUser(user, sender) {

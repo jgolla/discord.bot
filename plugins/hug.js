@@ -8,7 +8,7 @@ function hug(pluginParameters) {
 };
 
 function help(pluginParameters) {
-    pluginParameters.message.channel.sendMessage('Usage: !hug <name of the person to hug>');
+    pluginParameters.message.channel.sendMessage('Usage: `!hug <user>`');
 }
 
 module.exports = {

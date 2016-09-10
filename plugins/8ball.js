@@ -29,7 +29,7 @@ function action(pluginParameters) {
 }
 
 function help(pluginParameters) {
-    pluginParameters.message.channel.sendMessage('Usage: !8ball <question>');
+    pluginParameters.message.channel.sendMessage('Usage: `!8ball <question>`');
 }
 
 module.exports = {

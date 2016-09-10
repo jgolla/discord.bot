@@ -17,7 +17,7 @@ function action(pluginParameters) {
 }
 
 function help(pluginParameters) {
-    pluginParameters.message.channel.sendMessage('Usage: !joke');
+    pluginParameters.message.channel.sendMessage('Usage: `!joke`');
 }
 
 module.exports = {

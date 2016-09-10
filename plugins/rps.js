@@ -30,7 +30,7 @@ function action(pluginParameters) {
 }
 
 function help(pluginParameters) {
-    pluginParameters.message.channel.sendMessage('Usage: !rps <rock|paper|scissors>');
+    pluginParameters.message.channel.sendMessage('Usage: `!rps <rock|paper|scissors>`');
 }
 
 const PlayerWins = ['You have bested a bot, I bet you feel special.', 'You have won, dummy.'];

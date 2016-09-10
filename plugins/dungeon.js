@@ -9,7 +9,7 @@ function action(pluginParameters) {
 }
 
 function help(pluginParameters) {
-    pluginParameters.message.channel.sendMessage('Usage: !dungeon or !dungeion <user>');
+    pluginParameters.message.channel.sendMessage('Usage: `!dungeon` or `!dungeion <user>`');
 }
 
 function getMessageForUser(user, sender) {

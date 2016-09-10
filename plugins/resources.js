@@ -31,7 +31,7 @@ function action(pluginParameters) {
 }
 
 function help(pluginParameters) {
-    pluginParameters.message.channel.sendMessage('Usage: !resources <resource> <optional_resource>');
+    pluginParameters.message.channel.sendMessage('Usage: `!resources <resource> <optional_resource>`');
 }
 
 module.exports = {

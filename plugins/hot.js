@@ -9,7 +9,7 @@ function action(pluginParameters) {
 }
 
 function help(pluginParameters) {
-    pluginParameters.message.channel.sendMessage('Usage: !hot or !hot <user>');
+    pluginParameters.message.channel.sendMessage('Usage: `!hot` or `!hot <user>`');
 }
 
 function getMessageForUser(user, sender) {

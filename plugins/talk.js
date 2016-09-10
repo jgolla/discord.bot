@@ -36,5 +36,5 @@ function action(pluginParameters) {
 };
 
 function help(pluginParameters) {
-    pluginParameters.message.channel.sendMessage('Usage: !talk <say somethin> or @mention the bot or DM the bot');
+    pluginParameters.message.channel.sendMessage('Usage: `!talk <say something>` or `@mention the bot` or `DM the bot`');
 }

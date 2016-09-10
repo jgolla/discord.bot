@@ -16,7 +16,7 @@ function helpList(pluginParameters) {
 }
 
 function help(pluginParameters) {
-    pluginParameters.message.channel.sendMessage('Usage: !help or !help <COMMAND>');
+    pluginParameters.message.channel.sendMessage('Usage: `!help` or `!help <COMMAND>`');
 }
 
 module.exports = {

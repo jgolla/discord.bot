@@ -25,7 +25,7 @@ function action(pluginParameters) {
 }
 
 function help(pluginParameters) {
-    pluginParameters.message.channel.sendMessage('Usage: !seen <user>'); 
+    pluginParameters.message.channel.sendMessage('Usage: `!seen <user>`'); 
 }
 
 module.exports = {

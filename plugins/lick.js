@@ -9,7 +9,7 @@ function action(pluginParameters) {
 };
 
 function help(pluginParameters) {
-    pluginParameters.message.channel.sendMessage('Usage: !lick or !lick <user>');
+    pluginParameters.message.channel.sendMessage('Usage: `!lick` or `!lick <user>`');
 }
 
 function getMessageForUser(user, sender) {

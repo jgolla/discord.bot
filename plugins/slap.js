@@ -9,7 +9,7 @@ function action(pluginParameters) {
 }
 
 function help(pluginParameters) {
-    pluginParameters.message.channel.sendMessage('Usage: !slap or !slap <user>');  
+    pluginParameters.message.channel.sendMessage('Usage: `!slap` or `!slap <user>`');  
 }
 
 function getMessageForUser(user, sender) {

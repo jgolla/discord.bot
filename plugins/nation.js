@@ -19,7 +19,7 @@ function action(pluginParameters) {
 }
 
 function help(pluginParameters) {
-    pluginParameters.message.channel.sendMessage('Usage: !nation <nation name or ruler name>');
+    pluginParameters.message.channel.sendMessage('Usage: `!nation <nation name>` or `!nation <ruler name>`');
 }
 
 module.exports = {
