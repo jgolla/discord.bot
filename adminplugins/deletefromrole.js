@@ -1,6 +1,6 @@
-"use strict";
+'use strict';
 
-module.exports = function (pluginParameters) {
+function action(pluginParameters) {
     let server = pluginParameters.message.guild;
     let params = pluginParameters.body.split(':');
     let role = server.roles.find('name', params[0]);
@@ -12,4 +12,13 @@ module.exports = function (pluginParameters) {
     } else {
         pluginParameters.message.channel.sendMessage(`Could not find role ${params[0]}`)
     }
+}
+
+function help(pluginParameters) {
+    pluginParameters.message.channel.sendMessage('Usage: `!deletefromrole <role>:<user>`');
+}
+
+module.exports = {
+    action: action,
+    help: help
 };

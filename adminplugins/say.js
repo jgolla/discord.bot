@@ -1,19 +1,26 @@
-"use strict";
+'use strict';
 
-module.exports = function(pluginParameters) {
-    let message = 'Usage is !say <channel>:<message>';
-    let channel = pluginParameters.message.channel;
-
+function action(pluginParameters) {
     if(pluginParameters.body) {
         let params = pluginParameters.body.split(':');
         if(params.length === 2) {
             var channels = pluginParameters.bot.channels.filter((chan) => chan.type === 'text' && chan.name.toLowerCase() === params[0].toLowerCase());
             if(channels.first()) {
-                channel = channels.first();
-                message = params[1];
+                channels.first().sendMessage(params[1]);
+            } else {
+                help(pluginParameters);
             }
         }
+    } else {
+        help(pluginParameters);
     }
+}
 
-    channel.sendMessage(message);
+function help(pluginParameters) {
+    pluginParameters.message.channel.sendMessage('Usage: `!say <channel>:<message>`');
+}
+
+module.exports = {
+    action: action,
+    help: help
 };

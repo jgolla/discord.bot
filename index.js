@@ -46,8 +46,8 @@ bot.on('message', function(message) {
                 plugins: adminCommands,
                 db: db
             };
-            
-            adminCommands[parsedMessage.command](pluginParameters);
+
+            adminCommands[parsedMessage.command].action(pluginParameters);
         }
     }
 
