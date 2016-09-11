@@ -4,6 +4,7 @@ let utils = require('../utils.js');
 
 function action(pluginParameters) {
     if(!pluginParameters.body) {
+        help(pluginParameters);
         return;
     }
     
@@ -17,10 +18,10 @@ function action(pluginParameters) {
                     lastSeen = "on " + lastSeen;
                 }
 
-                pluginParameters.message.channel.sendMessage(`I last saw ${foundUser} ${lastSeen}`);
+                pluginParameters.message.channel.sendMessage(`I last saw ${pluginParameters.body} ${lastSeen}`);
                 return;
             } else {
-                pluginParameters.message.channel.sendMessage(`I have not seen ${foundUser}`);
+                pluginParameters.message.channel.sendMessage(`I have not seen ${pluginParameters.body}`);
             }
         });
     } else {
