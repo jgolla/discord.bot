@@ -4,7 +4,10 @@ function helpList(pluginParameters) {
     if(!pluginParameters.body) {
         let helpList = 'Current commands: ';
         for(let prop in pluginParameters.plugins) {
-            helpList += prop + ', ';
+            // only show help for plugins that have actions
+            if(pluginParameters.plugins[prop].action) {
+                helpList += prop + ', ';
+            }
         }
         
         pluginParameters.message.channel.sendMessage(helpList.substr(0, helpList.length - 2));

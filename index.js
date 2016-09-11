@@ -14,8 +14,8 @@ let adminCommands = require('./plugins.js')('adminplugins');
 
 let Datastore = require('nedb'), 
     db = new Datastore({ filename: 'discord.db', autoload: true });
-
-let needIdList = [];
+// auto compact every 5 mins
+db.persistence.setAutocompactionInterval(300000);
 
 bot.on('message', function(message) {
 
@@ -52,64 +52,31 @@ bot.on('message', function(message) {
             }
         }
     }
-
-    if(message.channel.isPrivate && needIdList.indexOf(message.author.toString()) !== -1) {
-        db.insert({nick: message.author.toString(), nationid: message.content});
-        needIdList.splice(needIdList.indexOf(message.author.toString()), 1);
-    }
 });
 
 // when the bot is ready
 bot.on('ready', () => {
-    console.log(`Ready to begin!`);
-
-    lookForNewUsers();
+    console.log('Ready to begin!');
 
     // init plugs
     let pluginParameters = {
-        bot: bot
+        bot: bot,
+        db: db
     };
 
-    for (let prop in generalCommands) {
-        if(generalCommands[prop].init) {
-            generalCommands[prop].init(pluginParameters);
-        }
-    } 
+    initPlugins([generalCommands, adminCommands], pluginParameters);
 
     // set bot admin role
     botAdminRole = bot.guilds.first().roles.find('name', 'botadmin');
 });
 
-bot.on('presenceUpdate', (oldUser, newUser) => {
-
-    // get the users entry in the db.
-    db.find({ nick: newUser.toString() }, (err, docs) => {
-        if(docs.length === 1) {
-            updateUserStatus(docs[0]);
-        }
-    });
-
-    function updateUserStatus(entry) {
-        if(newUser.status === "online") {
-            entry.lastSeen = "now";
-        } else if(newUser.status !== "online") {
-            entry.lastSeen = Date().toString();
-        }
-
-        db.update({ nick: entry.nick }, entry, (err, num) => console.log(err + ' ' + num));
-    }
-});
-
-function lookForNewUsers() {
-    bot.users.forEach((user) => {
-        if(user !== bot.user) {
-            let entry = db.find({ nick: user.toString() }, (err, docs) => {
-                if(docs.length === 0) {
-                    bot.sendMessage(user, 'Please send me your nation id.');
-                    needIdList.push(user.toString());
-                }
-            });
-        }
+function initPlugins(pluginList, pluginParameters) {
+    pluginList.forEach((item) => {
+        for (let prop in item) {
+            if(item[prop].init) {
+                item[prop].init(pluginParameters);
+            }
+        } 
     });
 }
 

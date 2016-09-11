@@ -12,7 +12,8 @@ module.exports = {
 
 function init(pluginParameters) {
     pluginParameters.bot.on('message', (message) => {  
-        if (message.author === pluginParameters.bot.user) {
+        // don't talk to yourself, or respond to commands
+        if (message.author === pluginParameters.bot.user || message.content.startsWith('!')) {
             return;
         }
         
