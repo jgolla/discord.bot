@@ -30,8 +30,12 @@ function setupPresenceUpdate(pluginParameters) {
 
     pluginParameters.bot.on('message', (message) => {
         if(message.channel.type === 'dm' && needIdList.indexOf(message.author.toString()) !== -1) {
-            pluginParameters.db.insert({ nick: message.author.toString(), nationid: message.content, lastSeen: 'now' });
-            needIdList.splice(needIdList.indexOf(message.author.toString()), 1);
+            if(Number.isInteger(message.content)) {
+                pluginParameters.db.insert({ nick: message.author.toString(), nationid: message.content, lastSeen: 'now' });
+                needIdList.splice(needIdList.indexOf(message.author.toString()), 1);
+            } else {
+                message.author.sendMessage('Then I will just keep asking you!\nPlease send me your nation id.');
+            }
         }
     });
 }
