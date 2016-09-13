@@ -30,7 +30,7 @@ function setupPresenceUpdate(pluginParameters) {
 
     pluginParameters.bot.on('message', (message) => {
         if(message.channel.type === 'dm' && needIdList.indexOf(message.author.toString()) !== -1) {
-            if(Number.isInteger(message.content)) {
+            if(Number.isInteger(+message.content)) {
                 pluginParameters.db.insert({ nick: message.author.toString(), nationid: message.content, lastSeen: 'now' });
                 needIdList.splice(needIdList.indexOf(message.author.toString()), 1);
             } else {
