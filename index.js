@@ -1,22 +1,24 @@
 'use strict';
 
-var cluster = require('cluster');
-var isDebugMode = process.argv[2] === 'debug';
+let cluster = require('cluster');
+let isDebugMode = process.argv[2] === 'debug';
+let botIsReady = false;
 
 if (!isDebugMode && cluster.isMaster) {
     var worker = cluster.fork().process;
     cluster.on('exit', (worker) => {
-        console.log('worker %s died. restart...', worker.process.pid);
+        botIsReady = false;
+        console.log(`worker ${worker.process.pid} died. restart...`);
         cluster.fork();
     });
 } else {
     start();
 }
 
-process.on('uncaughtException', function (err) {
-  console.error((new Date).toUTCString() + ' uncaughtException:', err.message);
-  console.error(err.stack);
-  process.exit(1);
+process.on('uncaughtException', (err) => {
+    console.error((new Date).toUTCString() + ' uncaughtException:', err.message);
+    console.error(err.stack);
+    process.exit(1);
 });
 
 function start() {    
@@ -76,18 +78,23 @@ function start() {
 
     // when the bot is ready
     bot.on('ready', () => {
-        console.log('Ready to begin!');
+        console.log('Ready event fired');
+        if(!botIsReady) {
+            console.log('Initializing bot');
 
-        // init plugs
-        let pluginParameters = {
-            bot: bot,
-            db: db
-        };
+            // init plugs
+            let pluginParameters = {
+                bot: bot,
+                db: db
+            };
 
-        initPlugins([generalCommands, adminCommands], pluginParameters);
+            initPlugins([generalCommands, adminCommands], pluginParameters);
 
-        // set bot admin role
-        botAdminRole = bot.guilds.first().roles.find('name', 'botadmin');
+            // set bot admin role
+            botAdminRole = bot.guilds.first().roles.find('name', 'botadmin');
+
+            botIsReady = true;
+        }
     });
 
     function initPlugins(pluginList, pluginParameters) {
